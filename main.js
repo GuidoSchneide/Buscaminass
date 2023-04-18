@@ -1,7 +1,7 @@
 //Constantes del juego
 const COLUMNAS = 5;
 const FILAS = 5;
-const CANTIDAD_MINAS = 5;
+const CANTIDAD_MINAS = COLUMNAS * FILAS - 1;
 
 //Variables con colores para los casilleros (NO se pudieron declarar como constantes ya que  la fn color sólo está definida para el setup y el draw)
 var COLOR_CASILLERO_CON_MINA;
@@ -27,15 +27,14 @@ function setup()
   COLOR_CASILLERO_SIN_MINA = color("#1CC932");
   COLOR_CASILLERO_MARCADO = color("#278EF2");
 
-  for(let x =0; x < 5; x++){
-    ponerMinasTablero();
-
-  }
+ 
 
  
 
-
+  ponerMinasTablero();
   casillerosSinDescubrir = COLUMNAS * FILAS;
+  
+  
 
   // Modificar/completar
 }
@@ -50,8 +49,8 @@ function draw() {
       if (tieneMinaCasillero(columnaPresionada, filaPresionada))
       {
         pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_CON_MINA);
+        mostrarMinas()
         perder()
-      
       }
         else
         { 
@@ -85,18 +84,31 @@ function ganoElJuego()
 
 function ponerMinasTablero()
 {
-  numeroRandomFil = floor(random()*FILAS);
-  numeroRandomCol = floor(random()*COLUMNAS);
-  ponerMinaCasillero(numeroRandomCol, numeroRandomFil);
+  let cant = 0;
+  while(cant < CANTIDAD_MINAS){
+    numeroRandomFil = floor(random()*FILAS);
+    numeroRandomCol = floor(random()*COLUMNAS);
+    if(!tieneMinaCasillero(numeroRandomCol,numeroRandomFil)){
+      ponerMinaCasillero(numeroRandomCol, numeroRandomFil);
+      cant ++;
+    }  
+    
+  }
+  
 
 }
 
 function mostrarMinas()
 {
-  
+  for(let f =0; f < COLUMNAS; f++)
+
+    for(let g =0; g < FILAS; g++)
+
+      if(tieneMinaCasillero(f, g) )
+        pintarCasillero(f, g, COLOR_CASILLERO_CON_MINA)
 }
 
 function contarMinasAlrededor(columna, fila)
 {
-  return 9;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
+  return  //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
 }
